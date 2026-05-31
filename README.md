@@ -87,6 +87,48 @@ Turbo Boost: off
 ./evaluate.sh thomaswue artsiomkorzun jerrinot
 ```
 
+## Go 實作
+
+這個 repo 另外加入兩個 Go implementation，方便比較 Java 頂尖解法在 Go 裡如何落地。
+
+### 基礎 Go 版本
+
+- 程式：[src/main/go/calculate_average.go](src/main/go/calculate_average.go)
+- 技術說明：[GO_TECHNIQUES.md](GO_TECHNIQUES.md)
+- 繁中說明：[GO_TECHNIQUES-ch.md](GO_TECHNIQUES-ch.md)
+
+執行方式：
+
+```bash
+./prepare_golang.sh
+./calculate_average_golang.sh
+./test.sh golang
+```
+
+### 快速 Go candidate
+
+這是更積極的版本，目標是挑戰最快 Java 解法。它使用 mmap、worker-local hash table、single-pass station scan + hash、station fingerprints、SWAR delimiter search、unsafe 64-bit loads、integer-only rounding 等技巧。
+
+- 程式：[src/main/go-fast/calculate_average.go](src/main/go-fast/calculate_average.go)
+- Linux `madvise` helper：[src/main/go-fast/madvise_linux.go](src/main/go-fast/madvise_linux.go)
+- 技術說明：[GO_FAST_TECHNIQUES.md](GO_FAST_TECHNIQUES.md)
+- 繁中說明：[GO_FAST_TECHNIQUES-ch.md](GO_FAST_TECHNIQUES-ch.md)
+
+執行方式：
+
+```bash
+./prepare_golang_fast.sh
+./calculate_average_golang_fast.sh
+./test.sh golang_fast
+```
+
+Benchmark 時可嘗試：
+
+```bash
+GOMAXPROCS=8 BRC_WORKERS=8 GOGC=off ./calculate_average_golang_fast.sh
+GOAMD64=v4 ./prepare_golang_fast.sh
+```
+
 
 ## 核心處理管線
 

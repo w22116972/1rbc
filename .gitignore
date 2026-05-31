@@ -38,6 +38,7 @@ nbactions.xml
 
 # Local environment
 .env
+.gocache/
 
 #JReleaser
 out/
